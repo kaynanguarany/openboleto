@@ -3,12 +3,13 @@ require __DIR__ . '/vendor/autoload.php';
 
 use OpenBoleto\Banco\Santander;
 use OpenBoleto\Agente;
+use Dompdf\Dompdf;
 
 $sacado = new Agente('Fernando Maia', '023.434.234-34', 'ABC 302 Bloco N', '72000-000', 'Brasília', 'DF');
 $cedente = new Agente('Empresa de cosméticos LTDA', '02.123.123/0001-11', 'CLS 403 Lj 23', '71000-000', 'Brasília', 'DF');
 $boleto = new Santander(array(
     // Parâmetros obrigatórios
-    'dataVencimento' => new DateTime('2013-01-24'),
+    'dataVencimento' => new DateTime('2017-04-24'),
     'valor' => 23.00,
     'sequencial' => 566612457800, // 8 dígitos
     'sacado' => $sacado,
@@ -55,4 +56,15 @@ $boleto = new Santander(array(
     //'quantidade' => 1,
 ));
 
-echo $boleto->getNossoNumero();
+$saida = $boleto->getOutput();
+$dompdf = new Dompdf();
+$dompdf->loadHtml($saida);
+
+// (Optional) Setup the paper size and orientation
+// $dompdf->setPaper('A4', 'landscape');
+
+// Render the HTML as PDF
+$dompdf->render();
+
+// Output the generated PDF to Browser
+$dompdf->stream('', array('Attachment'  => 0 ));
