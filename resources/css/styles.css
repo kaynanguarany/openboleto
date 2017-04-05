@@ -55,7 +55,7 @@ body{
 .linha-pontilhada {
     color: #000033;
     font: 9px Arial;
-    width: 100%;
+    width:732px;
     border-bottom: 1px dashed #000;
     text-align: right;
     margin-bottom: 10px;
@@ -128,6 +128,11 @@ body{
     display: inline-block;
     width: 406px;
     text-align: right;
+}
+
+.linha-digitavel {
+    width: 456px !important;
+    font: bold 16px Arial !important; 
 }
 
 .table-boleto .nopadding {
