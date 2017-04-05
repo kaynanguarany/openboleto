@@ -77,6 +77,7 @@ class Santander extends BoletoAbstract
      */
     protected $ios;
 
+
     /**
      * Define o valor do IOS
      *
@@ -95,6 +96,22 @@ class Santander extends BoletoAbstract
     public function getIos()
     {
         return $this->ios;
+    }
+
+    /**
+    * Número do convênio/contrato do cliente junto ao banco. No Santander, é chamado de Código do Cedente.
+    * @var int
+    */
+    protected $convenio;
+
+    public function setConvenio($convenio)
+    {
+        $this->convenio = $convenio;
+    }
+
+    public function getConvenio()
+    {
+        return self::zeroFill($this->convenio, 7);
     }
 
     /**
@@ -119,7 +136,7 @@ class Santander extends BoletoAbstract
      */
     public function getCampoLivre()
     {
-        return '9' . self::zeroFill($this->getConta(), 7) .
+        return '9' .$this->getConvenio() .
             $this->getNossoNumero(false) .
             self::zeroFill($this->getIos(), 1) .
             self::zeroFill($this->getCarteira(), 3);
@@ -135,5 +152,17 @@ class Santander extends BoletoAbstract
         return array(
             'esconde_uso_banco' => true,
         );
+    }
+
+    /**
+     * Retorna o campo Agência/Cedente do boleto
+     *
+     * @return string
+     */
+    public function getAgenciaCodigoCedente()
+    {
+        $agencia = $this->getAgencia();
+        $codigoCedente = $this->getConvenio();
+        return $agencia . ' / ' . $codigoCedente;
     }
 }
