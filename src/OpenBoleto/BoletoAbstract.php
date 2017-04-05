@@ -28,6 +28,7 @@
 namespace OpenBoleto;
 
 use DateTime;
+use \Milon\Barcode\DNS1D;
 
 /**
  * Classe base para geração de boletos bancários
@@ -220,7 +221,7 @@ abstract class BoletoAbstract
      * @var Agente
      */
     protected $cedente;
-    
+
     /**
      * Entidade sacada (de quem se cobra o boleto)
      * @var Agente
@@ -275,6 +276,8 @@ abstract class BoletoAbstract
      */
     protected $logoBanco;
 
+    protected $barCode;
+
     /**
      * Construtor
      *
@@ -282,6 +285,9 @@ abstract class BoletoAbstract
      */
     public function  __construct($params = array())
     {
+        $this->barCode = new DNS1D();
+        $this->barCode->setStorPath(__DIR__."/cache/");
+        // $d->setStorPath(__DIR__."/cache/");
         foreach ($params as $param => $value)
         {
             if (method_exists($this, 'set' . $param)) {
@@ -1221,7 +1227,8 @@ abstract class BoletoAbstract
             'aceite' => $this->getAceite(),
             'carteira' => $this->getCarteiraNome(),
             'uso_banco' => $this->getUsoBanco(),
-            'codigo_barras' => $this->getImagemCodigoDeBarras(),
+            'codigo_barras' => $this->barCode->getBarcodeHTML($this->getNumeroFebraban(), "I25", 1.6, 45),
+            // 'codigo_barras' => $this->getImagemCodigoDeBarras(),
             'resource_path' => $this->getResourcePath(),
         ));
 
