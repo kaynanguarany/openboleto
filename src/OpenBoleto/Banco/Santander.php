@@ -153,6 +153,7 @@ class Santander extends BoletoAbstract
             'esconde_uso_banco' => true,
         );
     }
+    
 
     /**
      * Retorna o campo Agência/Cedente do boleto

@@ -17,7 +17,7 @@ $boleto = new Santander(array(
     'agencia' => 1724, // 4 dígitos
     'carteira' => 102, // 3 dígitos
     'conta' => 12345, // 5 dígitos
-
+    'convenio' => 5533221,
     // Parâmetro obrigatório somente se a carteira for
     // 107, 122, 142, 143, 196 ou 198
     'codigoCliente' => 12345, // 5 dígitos
